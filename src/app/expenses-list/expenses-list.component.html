@@ -1,0 +1,14 @@
+<div class="columns is-mobile">
+  <div class="column is-half">
+    <h1 class="is-size-4">Expenses list</h1>
+  </div>
+  <div class="column is-half has-text-right">
+    <a routerLink="/add" class="button is-small is-outlined is-primary">
+      Add new
+    </a>
+  </div>
+</div>
+<app-expense-card
+  *ngFor="let expense of expenses"
+  [expense]="expense"
+></app-expense-card>

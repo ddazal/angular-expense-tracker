@@ -1,0 +1,15 @@
+<div class="card">
+  <div class="card-content">
+    <div class="columns is-mobile mb-0">
+      <div class="column">
+        <h3 class="is-size-5 has-text-weight-semibold">
+          {{ expense.description }}
+        </h3>
+        <p class="is-size-7">{{ expense.date | date }}</p>
+      </div>
+      <div class="column has-text-right">
+        <p class="has-text-weight-medium is-size-5">{{ expense.amount | currency: "USD" }}</p>
+      </div>
+    </div>
+  </div>
+</div>
