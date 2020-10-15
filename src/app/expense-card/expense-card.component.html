@@ -8,7 +8,23 @@
         <p class="is-size-7">{{ expense.date | date }}</p>
       </div>
       <div class="column has-text-right">
-        <p class="has-text-weight-medium is-size-5">{{ expense.amount | currency: "USD" }}</p>
+        <p class="has-text-weight-medium is-size-5">
+          {{ expense.amount | currency: "USD" }}
+        </p>
+        <div class="field is-grouped is-pulled-right mt-2">
+          <a
+            routerLink="/edit/{{ expense.id }}"
+            class="button is-primary is-outlined is-small"
+          >
+            Edit
+          </a>
+          <button
+            class="button is-danger is-outlined is-small ml-2"
+            (click)="deleteExpense(expense.id)"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -31,4 +31,15 @@ export class ExpensesService {
     this.expenses.push(expense);
     return of(this.expenses[this.expenses.length - 1]);
   }
+
+  getExpenseById(id: string): Observable<Expense> {
+    const expense = this.expenses.find((e) => e.id === id);
+    return of(expense);
+  }
+
+  deleteExpense(id: string): Observable<Expense> {
+    const expenseIndex = this.expenses.findIndex((e) => e.id === id);
+    const expense = this.expenses.splice(expenseIndex, 1);
+    return of(expense[0]);
+  }
 }

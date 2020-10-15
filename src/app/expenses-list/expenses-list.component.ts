@@ -11,6 +11,7 @@ import { ExpensesService } from '../services/expenses.service';
 export class ExpensesListComponent implements OnInit {
   expenses: Expense[];
   added = false;
+  deleted = false;
 
   constructor(
     private expensesService: ExpensesService,
@@ -18,6 +19,7 @@ export class ExpensesListComponent implements OnInit {
   ) {
     const { state } = this.router.getCurrentNavigation().extras;
     this.added = !!(state && state.added);
+    this.deleted = !!(state && state.deleted);
   }
 
   ngOnInit(): void {
@@ -28,5 +30,13 @@ export class ExpensesListComponent implements OnInit {
     this.expensesService
       .getExpenses()
       .subscribe((expenses) => (this.expenses = expenses));
+  }
+
+  deleteExpense(id: string): void {
+    const answer = confirm('Delete expense?');
+    if (!answer) {
+      return;
+    }
+    this.expensesService.deleteExpense(id);
   }
 }
