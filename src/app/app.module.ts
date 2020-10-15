@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ExpenseCardComponent } from './expense-card/expense-card.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { ExpenseFormComponent } from './expense-form/expense-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ExpenseFormComponent } from './expense-form/expense-form.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

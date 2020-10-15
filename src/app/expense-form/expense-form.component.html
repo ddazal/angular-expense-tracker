@@ -1,1 +1,104 @@
-<p>expense-form works!</p>
+<div class="columns">
+  <div class="column">
+    <h1 class="is-size-4">Add new expense</h1>
+  </div>
+</div>
+<form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+  <div class="field">
+    <label for="desc" class="label">Description</label>
+    <div class="control">
+      <input
+        formControlName="description"
+        id="desc"
+        type="text"
+        class="input"
+        [class]="{
+          'is-danger':
+            expenseForm.get('description').hasError('required') &&
+            expenseForm.get('description').touched,
+          'is-primary': expenseForm.get('description').valid
+        }"
+        autocomplete="off"
+        placeholder="Amen Ramen"
+        required
+      />
+    </div>
+    <p
+      *ngIf="
+        expenseForm.get('description').hasError('required') &&
+        expenseForm.get('description').touched
+      "
+      class="help is-danger"
+    >
+      You must provide a description
+    </p>
+  </div>
+  <div class="field">
+    <label for="amount" class="label">Amount</label>
+    <div class="control">
+      <input
+        formControlName="amount"
+        type="number"
+        id="amount"
+        class="input"
+        placeholder="10.25"
+        autocomplete="off"
+        [class]="{
+          'is-danger':
+            expenseForm.get('amount').hasError('required') &&
+            expenseForm.get('amount').touched,
+          'is-primary': expenseForm.get('amount').valid
+        }"
+        required
+      />
+    </div>
+    <p
+      *ngIf="
+        expenseForm.get('amount').hasError('required') &&
+        expenseForm.get('amount').touched
+      "
+      class="help is-danger"
+    >
+      You must provide a valid amount
+    </p>
+  </div>
+  <div class="field">
+    <label for="date" class="label">Date</label>
+    <div class="control">
+      <input
+        formControlName="date"
+        type="date"
+        name=""
+        id="date"
+        class="input"
+        [class]="{
+          'is-danger':
+            expenseForm.get('date').hasError('required') &&
+            expenseForm.get('date').touched,
+          'is-primary': expenseForm.get('date').valid
+        }"
+        required
+      />
+    </div>
+    <p
+      *ngIf="
+        expenseForm.get('date').hasError('required') &&
+        expenseForm.get('date').touched
+      "
+      class="help is-danger"
+    >
+      You must provide a date
+    </p>
+  </div>
+  <div class="field">
+    <div class="control">
+      <button
+        type="submit"
+        class="button is-primary"
+        [disabled]="!expenseForm.valid"
+      >
+        Add expense
+      </button>
+    </div>
+  </div>
+</form>
