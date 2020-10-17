@@ -1,0 +1,21 @@
+<form [formGroup]="editExpenseForm" (ngSubmit)="onSubmit()">
+  <app-expense-form
+    title="Edit expense"
+    formControlName="expense"
+    [description]="description"
+    [amount]="amount"
+    [date]="date"
+  >
+  </app-expense-form>
+  <div class="field mt-4">
+    <div class="control">
+      <button
+        type="submit"
+        class="button is-primary"
+        [disabled]="editExpenseForm.invalid"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+</form>

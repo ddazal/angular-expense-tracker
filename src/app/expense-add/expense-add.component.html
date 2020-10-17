@@ -1,0 +1,18 @@
+<form [formGroup]="addExpenseForm" (ngSubmit)="onSubmit()">
+  <app-expense-form
+    title="Add new expense"
+    formControlName="expense"
+  >
+  </app-expense-form>
+  <div class="field mt-4">
+    <div class="control">
+      <button
+        type="submit"
+        class="button is-primary"
+        [disabled]="addExpenseForm.invalid"
+      >
+        Add expense
+      </button>
+    </div>
+  </div>
+</form>

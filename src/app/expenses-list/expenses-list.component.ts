@@ -11,7 +11,7 @@ import { ExpensesService } from '../services/expenses.service';
 export class ExpensesListComponent implements OnInit {
   expenses: Expense[];
   added = false;
-  deleted = false;
+  edited = false;
 
   constructor(
     private expensesService: ExpensesService,
@@ -19,7 +19,7 @@ export class ExpensesListComponent implements OnInit {
   ) {
     const { state } = this.router.getCurrentNavigation().extras;
     this.added = !!(state && state.added);
-    this.deleted = !!(state && state.deleted);
+    this.edited = !!(state && state.edited);
   }
 
   ngOnInit(): void {

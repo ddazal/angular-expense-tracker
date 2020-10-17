@@ -13,7 +13,8 @@ export class ExpensesService {
   constructor() {}
 
   getExpenses(): Observable<Expense[]> {
-    return of(this.expenses.sort((a, b) => b.date - a.date));
+    const expenses = this.expenses.sort((a, b) => b.date - a.date);
+    return of(expenses);
   }
 
   addExpense(
@@ -41,5 +42,22 @@ export class ExpensesService {
     const expenseIndex = this.expenses.findIndex((e) => e.id === id);
     const expense = this.expenses.splice(expenseIndex, 1);
     return of(expense[0]);
+  }
+
+  updateExpense(
+    id: string,
+    description: string,
+    amount: number,
+    date: number
+  ): Observable<Expense> {
+    const expenseIndex = this.expenses.findIndex((e) => e.id === id);
+    const update = {
+      ...this.expenses[expenseIndex],
+      description,
+      amount,
+      date,
+    };
+    this.expenses.splice(expenseIndex, 1, update);
+    return of(update);
   }
 }
