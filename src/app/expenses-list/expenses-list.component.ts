@@ -27,9 +27,11 @@ export class ExpensesListComponent implements OnInit {
   }
 
   getExpenses(): void {
-    this.expensesService
-      .getExpenses()
-      .subscribe((expenses) => (this.expenses = expenses));
+    this.expensesService.getExpenses().subscribe((data: Expense[]) => {
+      this.expenses = data.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    });
   }
 
   deleteExpense(id: string): void {
@@ -37,6 +39,8 @@ export class ExpensesListComponent implements OnInit {
     if (!answer) {
       return;
     }
-    this.expensesService.deleteExpense(id);
+    this.expensesService.deleteExpense(id).subscribe(() => {
+      this.getExpenses();
+    });
   }
 }

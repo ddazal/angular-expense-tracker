@@ -12,6 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ExpensesService } from '../services/expenses.service';
+import { Expense } from '../models/expense';
 
 @Component({
   selector: 'app-expense-form',
@@ -68,22 +69,10 @@ export class ExpenseFormComponent
   }
 
   ngOnInit(): void {
-    const date = this.date && this.parseDate(this.date);
     this.expenseForm = this.fb.group({
       description: [this.description, Validators.required],
       amount: [this.amount, Validators.required],
-      date: [date, Validators.required],
+      date: [this.date, Validators.required],
     });
-  }
-
-  private parseDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return `${year}-${this.addLeadingZero(month)}-${this.addLeadingZero(day)}`;
-  }
-
-  private addLeadingZero(n: number): string {
-    return n < 10 ? `0${n}` : `${n}`;
   }
 }

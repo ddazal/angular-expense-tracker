@@ -30,28 +30,48 @@ export class ExpenseEditComponent implements OnInit {
 
   getExpense(): void {
     this.id = this.route.snapshot.paramMap.get('id');
-    this.expensesService.getExpenseById(this.id).subscribe((expense) => {
-      this.description = expense.description;
-      this.amount = expense.amount;
-      this.date = expense.date;
-    });
+    this.expensesService
+      .getExpenseById(this.id)
+      .subscribe((expense: Expense) => {
+        const { description, amount, date } = expense;
+        this.description = description;
+        this.amount = amount;
+        this.date = date;
+        this.editExpenseForm.patchValue({
+          expense: {
+            description,
+            amount,
+            date: this.parseDate(new Date(date)),
+          },
+        });
+      });
   }
 
   onSubmit(): void {
     const { expense } = this.editExpenseForm.value;
     if (expense) {
       const { description, amount, date } = expense;
-      const update: Expense = {
-        id: this.id,
-        description: expense.description,
-        amount: expense.amount,
-        date: new Date(expense.date),
+      const update = {
+        description,
+        amount,
+        date: new Date(date),
       };
-      this.expensesService.updateExpense(update).subscribe(() => {
+      this.expensesService.updateExpense(this.id, update).subscribe(() => {
         this.editExpenseForm.reset();
         this.router.navigate([''], { state: { edited: true } });
       });
     }
     this.router.navigate(['']);
+  }
+
+  private parseDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}-${this.addLeadingZero(month)}-${this.addLeadingZero(day)}`;
+  }
+
+  private addLeadingZero(n: number): string {
+    return n < 10 ? `0${n}` : `${n}`;
   }
 }

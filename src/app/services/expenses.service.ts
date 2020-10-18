@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 import { Expense } from '../models/expense';
 import { EXPENSES } from '../mock-expenses';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpensesService {
   expenses: Expense[] = EXPENSES;
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getExpenses(): Observable<Expense[]> {
-    const expenses = this.expenses.sort(
-      (a, b) => b.date.getTime() - a.date.getTime()
-    );
-    return of(expenses);
+    return this.http.get<Expense[]>(environment.apiUrl);
   }
 
   addExpense(
@@ -24,35 +22,25 @@ export class ExpensesService {
     amount: number,
     date: Date
   ): Observable<Expense> {
-    const id = uuidv4();
-    const expense: Expense = {
-      id,
+    return this.http.post<Expense>(environment.apiUrl, {
       description,
       amount,
       date,
-    };
-    this.expenses.push(expense);
-    return of(this.expenses[this.expenses.length - 1]);
+    });
   }
 
   getExpenseById(id: string): Observable<Expense> {
-    const expense = this.expenses.find((e) => e.id === id);
-    return of(expense);
+    return this.http.get<Expense>(`${environment.apiUrl}/${id}`);
   }
 
-  deleteExpense(id: string): Observable<Expense> {
-    const expenseIndex = this.expenses.findIndex((e) => e.id === id);
-    const expense = this.expenses.splice(expenseIndex, 1);
-    return of(expense[0]);
+  deleteExpense(id: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/${id}`);
   }
 
-  updateExpense(expense: Expense): Observable<Expense> {
-    const expenseIndex = this.expenses.findIndex((e) => e.id === expense.id);
-    const update = {
-      ...this.expenses[expenseIndex],
-      ...expense,
-    };
-    this.expenses.splice(expenseIndex, 1, update);
-    return of(update);
+  updateExpense(
+    id: string,
+    expense: { description: string; amount: number; date: Date }
+  ): Observable<any> {
+    return this.http.patch(`${environment.apiUrl}/${id}`, expense);
   }
 }

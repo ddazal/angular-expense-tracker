@@ -15,4 +15,4 @@
   [expense]="expense"
   (deleteExpenseEvent)="deleteExpense($event)"
 ></app-expense-card>
-<p class="has-text-centered" *ngIf="!expenses.length">There are no expenses registered. <a routerLink="/add" class="has-text-primary">Add a new one</a></p>
+<p class="has-text-centered" *ngIf="!expenses">There are no expenses registered. <a routerLink="/add" class="has-text-primary">Add a new one</a></p>
