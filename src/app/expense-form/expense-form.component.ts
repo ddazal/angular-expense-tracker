@@ -35,7 +35,7 @@ export class ExpenseFormComponent
   @Input() title: string;
   @Input() description: string;
   @Input() amount: number;
-  @Input() date: string;
+  @Input() date: Date;
   expenseForm: FormGroup;
   onTouched: () => {};
 
@@ -68,20 +68,22 @@ export class ExpenseFormComponent
   }
 
   ngOnInit(): void {
+    const date = this.date && this.parseDate(this.date);
     this.expenseForm = this.fb.group({
       description: [this.description, Validators.required],
       amount: [this.amount, Validators.required],
-      date: [this.date, Validators.required],
+      date: [date, Validators.required],
     });
   }
 
-  onSubmit(): void {
-    const { description, amount, date } = this.expenseForm.value;
-    this.expensesService
-      .addExpense(description, amount, new Date(date).getTime())
-      .subscribe((expense) => {
-        this.expenseForm.reset();
-        this.router.navigate([''], { state: { added: true } });
-      });
+  private parseDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}-${this.addLeadingZero(month)}-${this.addLeadingZero(day)}`;
+  }
+
+  private addLeadingZero(n: number): string {
+    return n < 10 ? `0${n}` : `${n}`;
   }
 }

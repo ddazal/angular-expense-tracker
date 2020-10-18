@@ -22,8 +22,8 @@ export class ExpenseAddComponent implements OnInit {
   onSubmit(): void {
     const { description, amount, date } = this.addExpenseForm.value.expense;
     this.expensesService
-      .addExpense(description, amount, new Date(date).getTime())
-      .subscribe((expense) => {
+      .addExpense(description, amount, new Date(date))
+      .subscribe(() => {
         this.addExpenseForm.reset();
         this.router.navigate([''], { state: { added: true } });
       });
